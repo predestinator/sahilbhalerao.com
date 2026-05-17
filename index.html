@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>·</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +14,7 @@
 <style>
 /* ============ BASE ============ */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100dvh;width:100vw;overflow:hidden;background:#000;color:#fff}
+html,body{height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000;color:#fff}
 body{position:fixed;inset:0;
   -webkit-user-select:none;-moz-user-select:none;user-select:none;
   -webkit-tap-highlight-color:transparent;cursor:default;
@@ -19,10 +22,15 @@ body{position:fixed;inset:0;
 #stage{position:fixed;inset:0;overflow:hidden}
 #fitwrap{position:absolute;left:50%;top:50%;transform-origin:center center;will-change:transform}
 #quote{font-size:44px;line-height:1.3;width:var(--qw,1000px)}
-.w{display:inline}
-noscript .w,.nojs{display:inline}
+.w{display:inline;animation:wreveal .82s cubic-bezier(.22,.72,.2,1) var(--d,0s) both}
+@keyframes wreveal{from{opacity:0;filter:blur(7px)}to{opacity:1;filter:blur(0)}}
+noscript .w{display:inline}
+/* whole-page link */
+#gate{position:fixed;inset:0;z-index:2147483000;display:block;
+  background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion:reduce){
-  .rm-off{animation:none!important}
+  .w{animation:none!important}
+  body[data-style=vibrate] #quote,body[data-style=clash] #quote{animation:none!important}
 }
 
 /* fade the stage in once, so font-swap pop is hidden */
@@ -108,7 +116,8 @@ body[data-style=terminal] #stage::after{
 body[data-style=terminal] #fitwrap{text-align:left}
 body[data-style=terminal] .term-head{
   font-family:'JetBrains Mono',monospace;font-size:30px;color:#2e7d32;
-  margin-bottom:.7em;white-space:nowrap}
+  margin-bottom:.7em;white-space:nowrap;
+  animation:wreveal .5s ease .04s both}
 body[data-style=terminal] .term-head b{color:var(--phos,#33ff66)}
 body[data-style=terminal] #quote{
   font-family:'JetBrains Mono',monospace;font-weight:400;
@@ -204,7 +213,8 @@ body[data-style=ransom] #quote{line-height:1.5;text-align:center;--qw:1180px}
 body[data-style=ransom] .w{
   display:inline-block;color:#1a1a1a;padding:.02em .14em;margin:.04em .05em;
   transform:rotate(var(--rot,0deg));
-  animation:twitch var(--tw,7s) ease-in-out infinite}
+  animation:wreveal .82s cubic-bezier(.22,.72,.2,1) var(--d,0s) both,
+            twitch var(--tw,7s) ease-in-out var(--twd,0s) infinite}
 @keyframes twitch{0%,100%{transform:rotate(var(--rot,0deg))}
   50%{transform:rotate(calc(var(--rot,0deg) + 1.5deg))}}
 
@@ -224,7 +234,8 @@ body[data-style=maximal] .w{
   display:inline-block;margin:.04em .18em;
   -webkit-text-stroke:1.4px #000;
   transform:rotate(var(--rot,0deg));
-  animation:drift var(--dr,12s) ease-in-out var(--dd,0s) infinite}
+  animation:wreveal .82s cubic-bezier(.22,.72,.2,1) var(--d,0s) both,
+            drift var(--dr,12s) ease-in-out var(--dd,0s) infinite}
 @keyframes drift{
   0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0)}
   50%{transform:rotate(calc(var(--rot,0deg) + 3deg)) translate(0,-10px)}}
@@ -345,11 +356,6 @@ body[data-style=kinetic] #stage{animation:reveal .5s ease .04s forwards,khue 30s
 body[data-style=kinetic] #quote{
   font-family:'Fraunces',serif;font-style:italic;font-weight:400;
   color:#f4efe6;line-height:1.46;text-align:left;--qw:820px}
-body[data-style=kinetic] .w{
-  display:inline-block;opacity:0;filter:blur(6px);
-  transform:translateY(.5em);
-  animation:kin .52s cubic-bezier(.16,1,.3,1) var(--kd,0s) forwards}
-@keyframes kin{to{opacity:1;filter:blur(0);transform:translateY(0)}}
 body[data-style=kinetic] #quote .accent{color:#ff7a6b}
 
 /* =========================================================
@@ -423,12 +429,118 @@ body[data-style=cinema] #quote{
   animation:cinfade 1.5s ease both,cinflick 5s ease-in-out infinite}
 @keyframes cinfade{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}
 @keyframes cinflick{0%,100%{filter:brightness(1)}50%{filter:brightness(1.05)}}
+
+/* =========================================================
+   19. SPOTLIGHT
+========================================================= */
+body[data-style=spotlight]{background:#050505}
+body[data-style=spotlight] #stage::before{content:"";position:absolute;inset:-12%;
+  background:radial-gradient(circle 40vmax at 50% 42%,#ffffff18,#0000 62%);
+  animation:spotmove 19s ease-in-out infinite}
+@keyframes spotmove{0%,100%{transform:translate(-7%,-4%)}50%{transform:translate(7%,5%)}}
+body[data-style=spotlight] #stage::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,#0000 42%,#000d 100%)}
+body[data-style=spotlight] #quote{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+  color:#d2d2d2;letter-spacing:.014em;line-height:1.5;text-align:center;--qw:980px;
+  text-shadow:0 0 34px #ffffff22}
+
+/* =========================================================
+   20. OUTLINE
+========================================================= */
+body[data-style=outline] #quote{
+  font-family:'Archivo Black',sans-serif;text-transform:uppercase;
+  line-height:.98;letter-spacing:.004em;text-align:center;--qw:1120px;
+  color:transparent;-webkit-text-stroke:1.7px var(--ink,#fff);
+  animation:outpulse 8s ease-in-out infinite}
+@keyframes outpulse{0%,100%{-webkit-text-stroke-width:1.4px}
+  50%{-webkit-text-stroke-width:2.4px}}
+
+/* =========================================================
+   21. GRADIENT
+========================================================= */
+body[data-style=gradient]{background:#0b0b11}
+body[data-style=gradient] #quote{
+  font-family:'Poppins',sans-serif;font-weight:700;
+  letter-spacing:-.012em;line-height:1.22;text-align:center;--qw:1040px;
+  background:linear-gradient(115deg,var(--g1,#7b5cff),var(--g2,#16d6c4),
+    var(--g3,#ff5ea8),var(--g1,#7b5cff));
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:gflow 9s linear infinite,gwipe 2.7s cubic-bezier(.55,0,.25,1) both}
+/* per-word filter breaks background-clip:text, so reveal via a clip wipe */
+body[data-style=gradient] .w{animation:none}
+@keyframes gflow{to{background-position:300% 0}}
+@keyframes gwipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* =========================================================
+   22. TYPEWRITER
+========================================================= */
+body[data-style=typewriter]{background:#f3efe4}
+body[data-style=typewriter] #stage::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,#0000 58%,#0000001f 100%)}
+body[data-style=typewriter] #fitwrap{text-align:left}
+body[data-style=typewriter] #quote{
+  font-family:'Special Elite',monospace;color:#23201b;
+  line-height:1.85;text-align:left;--qw:880px}
+.tw-cur{display:inline-block;width:.5em;height:1.05em;background:#23201b;
+  vertical-align:-.16em;margin-left:.06em;animation:blink 1.06s steps(2) infinite}
+
+/* =========================================================
+   23. AURORA
+========================================================= */
+body[data-style=aurora]{background:#04060f}
+body[data-style=aurora] #stage::before{content:"";position:absolute;inset:-25%;
+  background:
+   radial-gradient(46% 40% at 30% 26%,#1f8f6e88,#0000 70%),
+   radial-gradient(44% 38% at 72% 70%,#3b5bd977,#0000 70%),
+   radial-gradient(40% 32% at 56% 46%,#7a3bd96b,#0000 70%);
+  filter:blur(55px) hue-rotate(var(--ah,0deg));
+  animation:aur 24s ease-in-out infinite}
+@keyframes aur{0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(3%,-4%) scale(1.09)}}
+body[data-style=aurora] #quote{
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  color:#e9ecf5;letter-spacing:.012em;line-height:1.54;text-align:center;--qw:980px;
+  text-shadow:0 0 28px #6fb9ff3a}
+
+/* =========================================================
+   24. TILT
+========================================================= */
+body[data-style=tilt]{background:#0c0d12}
+body[data-style=tilt] #stage::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(#ffffff08 0 1px,#0000 1px 46px),
+            repeating-linear-gradient(90deg,#ffffff08 0 1px,#0000 1px 46px)}
+body[data-style=tilt] #quote{
+  font-family:'Inter',sans-serif;font-weight:800;color:#e8e9ee;
+  letter-spacing:-.016em;line-height:1.18;text-align:center;--qw:1000px;
+  animation:tiltsway 13s ease-in-out infinite}
+@keyframes tiltsway{
+  0%,100%{transform:perspective(1000px) rotateX(12deg) rotateY(-10deg)}
+  50%{transform:perspective(1000px) rotateX(12deg) rotateY(10deg)}}
+
+/* ============ MOBILE (column width is aspect-matched in JS) ============ */
+@media (max-width:560px){
+  body[data-style=editorial] #quote{column-count:1!important}
+  body[data-style=brutal] #stage{border-width:7px}
+  body[data-style=terminal] .term-head{white-space:normal}
+  body[data-style=typewriter] #quote{line-height:1.5}
+  .swiss-rule{top:6dvh}.swiss-label{top:calc(6dvh + 16px);font-size:10px}
+  .ed-mast{top:4dvh}.ed-mast .ln{margin:6px 7vw}
+  .bp-title,.brutal-stamp{font-size:11px}
+}
+@media (orientation:landscape) and (max-height:500px){
+  .ed-mast,.ed-folio,.swiss-rule,.swiss-label,.bp-title,.brutal-stamp,
+  .bp-tick{display:none}
+}
 </style>
 </head>
 <body>
 <div id="stage">
   <div id="fitwrap"><div id="quote"></div></div>
 </div>
+<a id="gate" href="https://x.com/hoiltepahu/status/2056097281506726396"
+   aria-label="Open the linked post"></a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -460,7 +572,8 @@ var QUOTE="Humans spend enormous amounts of energy translating between silos: "+
 
 var STYLES=["swiss","brutal","editorial","terminal","blueprint","void",
  "rgbsplit","ransom","maximal","vibrate","corrupt","clash","neon","synthwave",
- "kinetic","liquid","concrete","cinema"];
+ "kinetic","liquid","concrete","cinema",
+ "spotlight","outline","gradient","typewriter","aurora","tilt"];
 
 /* padding fractions (safe margin around the quote) per style */
 var PAD={
@@ -469,7 +582,9 @@ var PAD={
  rgbsplit:{x:.085,y:.11}, ransom:{x:.07,y:.085}, maximal:{x:.05,y:.06},
  vibrate:{x:.085,y:.10}, corrupt:{x:.075,y:.09}, clash:{x:.04,y:.045},
  neon:{x:.10,y:.13}, synthwave:{x:.085,y:.12}, kinetic:{x:.12,y:.13},
- liquid:{x:.10,y:.12}, concrete:{x:.08,y:.10}, cinema:{x:.10,y:.30}
+ liquid:{x:.10,y:.12}, concrete:{x:.08,y:.10}, cinema:{x:.10,y:.30},
+ spotlight:{x:.12,y:.16}, outline:{x:.07,y:.10}, gradient:{x:.10,y:.13},
+ typewriter:{x:.13,y:.15}, aurora:{x:.11,y:.15}, tilt:{x:.14,y:.18}
 };
 
 var rand=function(a,b){return a+Math.random()*(b-a);};
@@ -477,7 +592,12 @@ var pick=function(a){return a[Math.floor(Math.random()*a.length)];};
 var words=QUOTE.split(" ");
 function clean(w){return w.replace(/[^a-z]/gi,"").toLowerCase();}
 
-var style=pick(STYLES);
+/* pick a style, never repeating the immediately previous one */
+var prev=null;
+try{prev=sessionStorage.getItem("lastStyle");}catch(e){}
+var pool=STYLES.filter(function(s){return s!==prev;});
+var style=pick(pool.length?pool:STYLES);
+try{sessionStorage.setItem("lastStyle",style);}catch(e){}
 document.body.dataset.style=style;
 
 var quote=document.getElementById("quote");
@@ -590,7 +710,7 @@ var setups={
      s.style.fontSize=rand(.7,1.6).toFixed(2)+"em";
      s.style.setProperty("--rot",rand(-14,14).toFixed(1)+"deg");
      s.style.setProperty("--tw",rand(5,11).toFixed(1)+"s");
-     s.style.animationDelay=(-rand(0,6)).toFixed(1)+"s";
+     s.style.setProperty("--twd",(-rand(0,6)).toFixed(1)+"s");
      if(Math.random()<.62){
        s.style.background=pick(chips);
        s.style.color=Math.random()<.5?"#f4f0e6":"#1a1a1a";
@@ -665,7 +785,7 @@ var setups={
    quote.innerHTML=words.map(function(w,i){
      var cls="w pwr"+(i===broke?" broke":"");
      return '<span class="'+cls+'" style="animation-delay:'+
-       (i*0.014).toFixed(3)+'s,'+rand(2,9).toFixed(1)+'s">'+w+'</span>';
+       (i*0.045).toFixed(3)+'s,'+rand(2,9).toFixed(1)+'s">'+w+'</span>';
    }).join(" ");
    quote.querySelectorAll(".broke").forEach(function(s){
      s.style.setProperty("--fk",rand(3,7).toFixed(1)+"s");
@@ -682,12 +802,10 @@ var setups={
    stage.insertBefore(mk("sw-sun"),fitwrap);
  },
  kinetic:function(){
-   var stag=rand(.04,.08);
    var accentWord=pick(["friction","invisible","intent","energy"]);
-   quote.innerHTML=words.map(function(w,i){
+   quote.innerHTML=words.map(function(w){
      var acc=clean(w)===accentWord?" accent":"";
-     return '<span class="w'+acc+'" style="--kd:'+(i*stag).toFixed(3)+
-       's">'+w+'</span>';
+     return '<span class="w'+acc+'">'+w+'</span>';
    }).join(" ");
  },
  liquid:function(){
@@ -734,21 +852,79 @@ var setups={
    leak.style.setProperty("--leak",
      Math.random()<.5?"#ffb86c33":"#7fb0ff2e");
    stage.appendChild(leak);
+ },
+ outline:function(){
+   basicRender();
+   var pairs=[["#111111","#ffffff"],["#0a1a3c","#7fc9ff"],["#3a0a14","#ff7d97"],
+              ["#0c2b1e","#7dffb0"],["#f2f0e8","#1a1a1a"],["#241640","#d6b3ff"]];
+   var p=pick(pairs);
+   document.body.style.background=p[0];
+   document.body.style.setProperty("--ink",p[1]);
+ },
+ gradient:function(){
+   basicRender();
+   var sets=[["#7b5cff","#16d6c4","#ff5ea8"],["#ff8a3d","#ff2bd1","#5ad7ff"],
+             ["#3df0a0","#1f8fff","#b14dff"],["#ffd23f","#ff5ea8","#7b5cff"]];
+   var g=pick(sets);
+   document.body.style.setProperty("--g1",g[0]);
+   document.body.style.setProperty("--g2",g[1]);
+   document.body.style.setProperty("--g3",g[2]);
+ },
+ typewriter:function(){
+   basicRender();
+   quote.appendChild(document.createTextNode(" "));
+   quote.appendChild(mk("tw-cur"));
+ },
+ aurora:function(){
+   basicRender();
+   document.body.style.setProperty("--ah",Math.round(rand(0,320))+"deg");
  }
 };
 
 function mk(cls){var d=document.createElement("div");d.className=cls;return d;}
 
+/* thoughtful word-by-word reveal — paced so the sentence lands,
+   with a breath at clause breaks and a longer pause at the full stop */
+function revealWords(){
+  var ws=quote.querySelectorAll(".w");
+  if(!ws.length)return;
+  var step=rand(.046,.085), t=rand(.1,.32);
+  ws.forEach(function(s){
+    s.style.setProperty("--d",t.toFixed(3)+"s");
+    var tx=(s.textContent||"").trim();
+    t+=step;
+    if(/[,;:]$/.test(tx))t+=step*1.7;
+    if(/\.$/.test(tx))t+=step*3;
+  });
+}
+
 (setups[style]||basicRender)();
+revealWords();
 
 /* ============ AUTO-FIT (transform scale, guarantees no scroll) ============ */
 function fit(){
   var m=PAD[style]||{x:.07,y:.08};
+  var vw=window.innerWidth, vh=window.innerHeight;
+  var mob=Math.min(vw,vh)<560;
+  /* tighten margins on small screens so the quote stays large */
+  if(mob){m={x:Math.max(m.x*0.55,.03), y:Math.max(m.y*0.6,.045)};}
+  var availW=vw*(1-2*m.x), availH=vh*(1-2*m.y);
   fitwrap.style.transform="translate(-50%,-50%) scale(1)";
+  if(mob){
+    /* bisect the column width so the block's aspect ~ the phone's,
+       so the quote fills the screen instead of sitting in a thin strip */
+    var target=availW/availH, lo=300, hi=1600, qw;
+    for(var i=0;i<9;i++){
+      qw=(lo+hi)/2;
+      quote.style.setProperty("--qw",qw+"px","important");
+      var a=fitwrap.offsetWidth/fitwrap.offsetHeight;
+      if(a<target)lo=qw; else hi=qw;
+    }
+  }else{
+    quote.style.removeProperty("--qw");
+  }
   var w=fitwrap.offsetWidth, h=fitwrap.offsetHeight;
   if(!w||!h)return;
-  var availW=window.innerWidth*(1-2*m.x);
-  var availH=window.innerHeight*(1-2*m.y);
   var s=Math.min(availW/w, availH/h);
   fitwrap.style.transform="translate(-50%,-50%) scale("+s+")";
 }
@@ -763,6 +939,10 @@ window.addEventListener("resize",fit);
 window.addEventListener("orientationchange",function(){setTimeout(fit,120);});
 setTimeout(fit,250);
 setTimeout(fit,800);
+/* a soft refresh / back-forward restore re-renders a fresh variation */
+window.addEventListener("pageshow",function(e){
+  if(e.persisted)location.reload();
+});
 })();
 </script>
 </body>
